@@ -1,0 +1,57 @@
+// /Views/Inventory/Index.cshtml
+@model IEnumerable<RPACProductionPlanner.Models.InventoryItem>
+@{
+    ViewBag.Title = "Inventory Management";
+}
+
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-white border-bottom p-4 d-flex align-items-center">
+                <h6 class="mb-0 fw-bold">Stock Levels</h6>
+                <div class="ms-auto d-flex">
+                    <button class="btn btn-sm btn-light border me-2">Export CSV</button>
+                    <button class="btn btn-sm btn-primary">Check Low Stock Alerts</button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Item Code</th>
+                                <th>Item Name</th>
+                                <th>Category</th>
+                                <th>On Hand</th>
+                                <th>Reorder Level</th>
+                                <th>Status</th>
+                                <th class="text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in Model) {
+                                <tr>
+                                    <td class="ps-4 fw-medium text-primary">@item.ItemCode</td>
+                                    <td>@item.ItemName</td>
+                                    <td>@item.Category</td>
+                                    <td class="fw-bold">@item.QuantityOnHand @item.UnitOfMeasure</td>
+                                    <td class="text-muted">@item.ReorderLevel</td>
+                                    <td>
+                                        @if(item.QuantityOnHand <= item.ReorderLevel) {
+                                            <span class="badge bg-danger">LOW STOCK</span>
+                                        } else {
+                                            <span class="badge bg-success">STABLE</span>
+                                        }
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <button class="btn btn-sm btn-outline-primary py-1">View BOM</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

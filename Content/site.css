@@ -1,0 +1,59 @@
+/* /Content/site.css */
+body {
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+}
+
+#wrapper {
+    overflow-x: hidden;
+    height: 100vh;
+}
+
+#sidebar-wrapper {
+    min-width: 250px;
+    max-width: 250px;
+    background-color: #0f172a !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+}
+
+.active-link {
+    background-color: #2563eb !important;
+    color: white !important;
+}
+
+.list-group-item:hover:not(.active-link) {
+    background-color: #1e293b !important;
+    color: #60a5fa !important;
+}
+
+.x-small { font-size: 0.65rem; }
+.tracking-wider { letter-spacing: 0.05em; }
+.no-caret::after { display: none; }
+
+.card { transition: transform 0.2s; }
+.rounded-4 { border-radius: 0.75rem !important; }
+
+.bg-dark-darker { background-color: #0a0f1d; }
+.hover-white:hover { color: white !important; }
+
+.bg-indigo { background-color: #6366f1; }
+.text-indigo { color: #6366f1; }
+
+.table > thead > tr > th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.4em 0.7em;
+}

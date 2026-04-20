@@ -1,0 +1,40 @@
+// /Views/Admin/Users.cshtml
+@{
+    ViewBag.Title = "User Management";
+}
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header bg-white border-bottom p-4 d-flex align-items-center">
+        <h6 class="mb-0 fw-bold">Active Staff Accounts</h6>
+        <button class="btn btn-sm btn-primary ms-auto">Add New User</button>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">Full Name</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>System Access</th>
+                    <th class="text-end pe-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="ps-4">Saman Kumara</td>
+                    <td>planner_saman</td>
+                    <td><span class="badge bg-primary">Planner</span></td>
+                    <td><span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> Active</span></td>
+                    <td class="text-end pe-4"><button class="btn btn-sm btn-light border">Reset PW</button></td>
+                </tr>
+                <tr>
+                    <td class="ps-4">Bandara Perera</td>
+                    <td>bandara_p</td>
+                    <td><span class="badge bg-secondary">Supervisor</span></td>
+                    <td><span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> Active</span></td>
+                    <td class="text-end pe-4"><button class="btn btn-sm btn-light border">Reset PW</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

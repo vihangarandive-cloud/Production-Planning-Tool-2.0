@@ -1,0 +1,108 @@
+// /Views/Shared/_Layout.cshtml
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - RPAC Production Planner</title>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/Content/site.css" />
+    
+    <!-- Chart.js 4.x -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-dark text-white shadow" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom border-secondary py-4 px-3">
+                <span class="fs-4 fw-bold text-uppercase tracking-wider">RPAC Lanka</span>
+                <div class="small text-secondary mt-1">Production Planner v1.0</div>
+            </div>
+            <div class="list-group list-group-flush mt-3 px-2">
+                <a href="@Url.Action("Index", "Dashboard")" class="list-group-item list-group-item-action bg-dark text-white border-0 rounded mb-1 @(ViewBag.ActiveModule == "Dashboard" ? "active-link" : "")">
+                    <i class="bi bi-speedometer2 me-3"></i> Dashboard
+                </a>
+                <a href="@Url.Action("Index", "ProductionOrder")" class="list-group-item list-group-item-action bg-dark text-white border-0 rounded mb-1 @(ViewBag.ActiveModule == "Production" ? "active-link" : "")">
+                    <i class="bi bi-gear-wide-connected me-3"></i> Production Orders
+                </a>
+                <a href="@Url.Action("Index", "Scheduler")" class="list-group-item list-group-item-action bg-dark text-white border-0 rounded mb-1 @(ViewBag.ActiveModule == "Scheduler" ? "active-link" : "")">
+                    <i class="bi bi-calendar3 me-3"></i> Machine Scheduler
+                </a>
+                <a href="@Url.Action("Index", "Inventory")" class="list-group-item list-group-item-action bg-dark text-white border-0 rounded mb-1 @(ViewBag.ActiveModule == "Inventory" ? "active-link" : "")">
+                    <i class="bi bi-box-seam me-3"></i> Inventory & BOM
+                </a>
+                <hr class="border-secondary mx-3 my-4">
+                <a href="@Url.Action("Index", "Reports")" class="list-group-item list-group-item-action bg-dark text-white border-0 rounded mb-1 @(ViewBag.ActiveModule == "Reports" ? "active-link" : "")">
+                    <i class="bi bi-bar-chart-line me-3"></i> Reports & OEE
+                </a>
+                @if (RPACProductionPlanner.Helpers.SessionHelper.UserRole == "Admin")
+                {
+                    <a href="@Url.Action("Index", "Admin")" class="list-group-item list-group-item-action bg-dark text-white border-0 rounded mb-1 @(ViewBag.ActiveModule == "Admin" ? "active-link" : "")">
+                        <i class="bi bi-shield-lock me-3"></i> Admin Panel
+                    </a>
+                }
+            </div>
+            <div class="sidebar-footer mt-auto p-3 border-top border-secondary bg-dark-darker">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 overflow-hidden">
+                        <div class="fw-bold text-truncate">@RPACProductionPlanner.Helpers.SessionHelper.FullName</div>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 x-small text-uppercase">@RPACProductionPlanner.Helpers.SessionHelper.UserRole</span>
+                    </div>
+                    <a href="@Url.Action("Logout", "Account")" class="text-white-50 hover-white ms-2" title="Logout">
+                        <i class="bi bi-box-arrow-right fs-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="w-100 h-100 overflow-auto">
+            <nav class="navbar navbar-expand-lg navbar-white bg-white border-bottom py-3 sticky-top">
+                <div class="container-fluid px-4">
+                    <h5 class="mb-0 fw-bold text-dark">@ViewBag.Title</h5>
+                    <div class="d-flex align-items-center ms-auto">
+                        <div class="dropdown me-3">
+                            <button class="btn btn-link link-dark position-relative p-0" id="alertsDropdown" data-bs-toggle="dropdown">
+                                <i class="bi bi-bell-fill fs-5"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-light" style="font-size: 0.6rem;">
+                                    3
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0 py-0" style="width: 300px;">
+                                <li class="p-3 border-bottom"><h6 class="mb-0 fw-bold">Recent Notifications</h6></li>
+                                <li><a class="dropdown-item py-3 border-bottom" href="#"><i class="bi bi-exclamation-triangle-fill text-warning me-2"></i> Low Stock: Accelerator CZ</a></li>
+                                <li><a class="dropdown-item py-3 border-bottom" href="#"><i class="bi bi-clock-history text-danger me-2"></i> Overdue: PO-2026-004</a></li>
+                                <li class="text-center p-2"><a href="@Url.Action("Index", "Reports")" class="text-muted small">View all alerts</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid p-4">
+                @RenderBody()
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/site.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

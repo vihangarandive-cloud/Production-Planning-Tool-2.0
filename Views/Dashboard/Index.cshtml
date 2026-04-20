@@ -1,0 +1,131 @@
+// /Views/Dashboard/Index.cshtml
+@model RPACProductionPlanner.Models.KPISummary
+@{
+    ViewBag.Title = "Operations Dashboard";
+}
+
+<div class="row g-4 mb-4">
+    <!-- KPI Cards -->
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3 me-3">
+                        <i class="bi bi-play-circle fs-4"></i>
+                    </div>
+                    <div class="text-muted small fw-medium">Active Orders</div>
+                </div>
+                <h2 class="fw-bold mb-0">@Model.TotalActiveOrders</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-success bg-opacity-10 text-success p-3 rounded-3 me-3">
+                        <i class="bi bi-check2-circle fs-4"></i>
+                    </div>
+                    <div class="text-muted small fw-medium">O.T.D. Rate</div>
+                </div>
+                <h2 class="fw-bold mb-0">@Model.OnTimeDeliveryRate.ToString("0.0")%</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-3 me-3">
+                        <i class="bi bi-box-arrow-in-down fs-4"></i>
+                    </div>
+                    <div class="text-muted small fw-medium">Low Stock Items</div>
+                </div>
+                <h2 class="fw-bold mb-0">@Model.LowStockCount</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-indigo bg-opacity-10 text-indigo p-3 rounded-3 me-3">
+                        <i class="bi bi-cpu fs-4"></i>
+                    </div>
+                    <div class="text-muted small fw-medium">Machines Active</div>
+                </div>
+                <h2 class="fw-bold mb-0">@Model.MachinesActive</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-white border-bottom py-3 px-4 d-flex align-items-center">
+                <h6 class="mb-0 fw-bold">Recent Unread Alerts</h6>
+                <a href="@Url.Action("Index", "Reports")" class="ms-auto btn btn-sm btn-light border">View All</a>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0 align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4 border-0 py-3">Type</th>
+                            <th class="border-0 py-3">Message</th>
+                            <th class="border-0 py-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ps-4 py-3"><span class="badge bg-warning-subtle text-warning border-warning-subtle">Low Stock</span></td>
+                            <td>Accelerator CZ is below reorder level (Current: 15 KG)</td>
+                            <td class="text-center"><button class="btn btn-sm btn-primary">Check BOM</button></td>
+                        </tr>
+                        <tr>
+                            <td class="ps-4 py-3"><span class="badge bg-danger-subtle text-danger border-danger-subtle">Schedule</span></td>
+                            <td>Vulcanizer A has overlapping orders on 2026-04-21</td>
+                            <td class="text-center"><button class="btn btn-sm btn-primary">Adjust</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-white border-bottom py-3 px-4">
+                <h6 class="mb-0 fw-bold">Order Status Breakdown</h6>
+            </div>
+            <div class="card-body p-4">
+                <canvas id="statusChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Planned', 'In Progress', 'Completed', 'On Hold'],
+            datasets: [{
+                data: [12, 5, 25, 3],
+                backgroundColor: ['#2563eb', '#10b981', '#64748b', '#f59e0b'],
+                borderWidth: 0,
+                hoverOffset: 15
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+            },
+            cutout: '75%'
+        }
+    });
+</script>
+}

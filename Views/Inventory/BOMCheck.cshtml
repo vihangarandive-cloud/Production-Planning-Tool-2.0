@@ -1,0 +1,46 @@
+// /Views/Inventory/BOMCheck.cshtml
+@model IEnumerable<RPACProductionPlanner.Models.BillOfMaterial>
+@{
+    ViewBag.Title = "BOM Availability Check";
+}
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-header bg-white border-bottom p-4">
+        <h5 class="mb-0 fw-bold">Requirement for @ViewBag.ProductName (@ViewBag.Quantity Units)</h5>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th class="ps-4">Material Name</th>
+                    <th>Required Total</th>
+                    <th>Current Stock</th>
+                    <th>Shortage</th>
+                    <th class="pe-4 text-end">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                    <tr>
+                        <td class="ps-4 font-medium">@item.ItemName</td>
+                        <td>@item.TotalRequired @item.UnitOfMeasure</td>
+                        <td>@item.QuantityOnHand @item.UnitOfMeasure</td>
+                        <td class="@(item.Shortage > 0 ? "text-danger fw-bold" : "text-muted")">
+                            @item.Shortage @item.UnitOfMeasure
+                        </td>
+                        <td class="pe-4 text-end">
+                            @if (item.Shortage > 0) {
+                                <span class="badge bg-danger">SHORTAGE</span>
+                            } else {
+                                <span class="badge bg-success">AVAILABLE</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer bg-white p-4">
+        <a href="@Url.Action("Index")" class="btn btn-light border">Back to Inventory</a>
+    </div>
+</div>

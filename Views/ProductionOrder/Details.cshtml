@@ -1,0 +1,76 @@
+// /Views/ProductionOrder/Details.cshtml
+@model RPACProductionPlanner.Models.ProductionOrder
+@{
+    ViewBag.Title = "Order Details: #" + Model.OrderCode;
+}
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-4">
+                    <h4 class="fw-bold mb-0">@Model.ProductName</h4>
+                    <span class="badge bg-primary ms-3">@Model.Status</span>
+                </div>
+                
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Quantity</label>
+                        <p class="fw-bold">@Model.Quantity @Model.UnitOfMeasure</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Priority</label>
+                        <p class="fw-bold"><i class="bi bi-flag-fill me-1"></i> @Model.Priority</p>
+                    </div>
+                </div>
+                
+                <hr class="my-4 opa-10">
+                
+                <h6 class="fw-bold mb-3">Timeline</h6>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Planned Start</label>
+                        <p>@(Model.PlannedStart?.ToString("f") ?? "N/A")</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Planned End</label>
+                        <p>@(Model.PlannedEnd?.ToString("f") ?? "N/A")</p>
+                    </div>
+                </div>
+                
+                <h6 class="fw-bold mt-4 mb-3">Notes</h6>
+                <p class="text-muted bg-light p-3 rounded">@Model.Notes</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-header bg-white border-bottom p-4">
+                <h6 class="mb-0 fw-bold">Assignment & Resources</h6>
+            </div>
+            <div class="card-body p-4">
+                <div class="mb-4">
+                    <label class="text-muted small">Assigned Machine</label>
+                    <div class="d-flex align-items-center mt-1">
+                        <div class="bg-light p-2 rounded me-3"><i class="bi bi-cpu fs-4"></i></div>
+                        <div>
+                            <div class="fw-bold">@Model.MachineName</div>
+                            <div class="x-small text-muted">Code: MC-042</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="text-muted small">Supervisor</label>
+                    <div class="d-flex align-items-center mt-1">
+                        <div class="bg-light p-2 rounded me-3"><i class="bi bi-person-badge fs-4"></i></div>
+                        <div>
+                            <div class="fw-bold">@Model.EmployeeName</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

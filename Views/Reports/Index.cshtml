@@ -1,0 +1,62 @@
+// /Views/Reports/Index.cshtml
+@{
+    ViewBag.Title = "Analytics & Reports";
+}
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-white border-bottom p-4">
+                <h6 class="mb-0 fw-bold">OEE (Overall Equipment Effectiveness)</h6>
+            </div>
+            <div class="card-body p-4">
+                <canvas id="oeeChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-header bg-white border-bottom p-4">
+                <h6 class="mb-0 fw-bold">Monthly Production Trend</h6>
+            </div>
+            <div class="card-body p-4">
+                <canvas id="trendChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script>
+    const oeeCtx = document.getElementById('oeeChart').getContext('2d');
+    new Chart(oeeCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Cutting M1', 'Vulcanizer A', 'Mixing Mill 2', 'Extruder Max'],
+            datasets: [{
+                label: 'OEE %',
+                data: [85, 78, 62, 92],
+                backgroundColor: '#2563eb'
+            }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true, max: 100 } } }
+    });
+
+    const trendCtx = document.getElementById('trendChart').getContext('2d');
+    new Chart(trendCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr'],
+            datasets: [{
+                label: 'Volume (kg)',
+                data: [12000, 15000, 14000, 18500],
+                borderColor: '#10b981',
+                tension: 0.3,
+                fill: true,
+                backgroundColor: 'rgba(16, 185, 129, 0.1)'
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>
+}
