@@ -2,15 +2,17 @@
 
 @theme {
   --color-sidebar: #0f172a;
-  --color-sidebar-active: #2563eb;
+  --color-sidebar-active: #e11d48; /* RPAC Red */
+  --color-rpac-blue: #1e3a8a; /* RPAC Navy Blue */
+  --color-rpac-red: #e11d48;
   --color-bg-main: #f8fafc;
   --color-text-primary: #1e293b;
   --color-text-secondary: #64748b;
   --color-border-subtle: #f1f5f9;
   --color-border-navbar: #e2e8f0;
   
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.1);
-  --radius-minimal: 12px;
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.05);
+  --radius-minimal: 16px;
   
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }

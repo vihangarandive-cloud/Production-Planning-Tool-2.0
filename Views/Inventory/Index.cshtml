@@ -9,42 +9,53 @@
         <div class="card border-0 shadow-sm rounded-4">
             <div class="card-header bg-white border-bottom p-4 d-flex align-items-center">
                 <h6 class="mb-0 fw-bold">Stock Levels</h6>
-                <div class="ms-auto d-flex">
-                    <button class="btn btn-sm btn-light border me-2">Export CSV</button>
-                    <button class="btn btn-sm btn-primary">Check Low Stock Alerts</button>
+                <div class="ms-auto d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-secondary border-0 fw-bold uppercase tracking-widest" style="font-size: 0.65rem;">
+                        <i class="bi bi-arrow-repeat me-1"></i> Sync SAP B1
+                    </button>
+                    <button class="btn btn-sm btn-primary px-3 rounded-pill fw-bold">Download Report</button>
                 </div>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0 align-middle">
                         <thead class="table-light">
-                            <tr>
-                                <th class="ps-4">Item Code</th>
-                                <th>Item Name</th>
-                                <th>Category</th>
-                                <th>On Hand</th>
-                                <th>Reorder Level</th>
-                                <th>Status</th>
-                                <th class="text-end pe-4">Actions</th>
+                            <tr class="text-secondary small fw-black uppercase tracking-widest">
+                                <th class="ps-4 py-3">Item Identity</th>
+                                <th class="py-3">Description</th>
+                                <th class="py-3 text-center">Current Stock</th>
+                                <th class="py-3 text-center">Safety Level</th>
+                                <th class="py-3">Status / SAP Link</th>
+                                <th class="py-3 text-end pe-4">System Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach(var item in Model) {
-                                <tr>
-                                    <td class="ps-4 fw-medium text-primary">@item.ItemCode</td>
-                                    <td>@item.ItemName</td>
-                                    <td>@item.Category</td>
-                                    <td class="fw-bold">@item.QuantityOnHand @item.UnitOfMeasure</td>
-                                    <td class="text-muted">@item.ReorderLevel</td>
+                                <tr class="hover-row">
+                                    <td class="ps-4">
+                                        <div class="fw-black text-dark">@item.ItemCode</div>
+                                        <div class="x-small text-muted font-monospace">SAP UID: @(item.ItemId + 9000)</div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold">@item.ItemName</div>
+                                        <div class="x-small text-secondary uppercase tracking-tighter">@item.Category</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="fw-black text-rpac-blue">@item.QuantityOnHand</span>
+                                        <span class="x-small text-muted fw-bold">@item.UnitOfMeasure</span>
+                                    </td>
+                                    <td class="text-center text-muted small fw-bold">@item.ReorderLevel</td>
                                     <td>
                                         @if(item.QuantityOnHand <= item.ReorderLevel) {
-                                            <span class="badge bg-danger">LOW STOCK</span>
+                                            <span class="badge bg-danger rounded-pill px-3 shadow-sm">CRITICAL</span>
                                         } else {
-                                            <span class="badge bg-success">STABLE</span>
+                                            <span class="badge bg-white border text-emerald-600 border-emerald-200 rounded-pill px-3">ACTIVE</span>
                                         }
+                                        <div class="x-small text-emerald-600 mt-1 fw-bold"><i class="bi bi-link-45deg"></i> SAP Linked</div>
                                     </td>
                                     <td class="text-end pe-4">
-                                        <button class="btn btn-sm btn-outline-primary py-1">View BOM</button>
+                                        <button class="btn btn-sm btn-light border rounded-3 p-2"><i class="bi bi-box-seam"></i></button>
+                                        <button class="btn btn-sm btn-light border rounded-3 p-2"><i class="bi bi-graph-up"></i></button>
                                     </td>
                                 </tr>
                             }

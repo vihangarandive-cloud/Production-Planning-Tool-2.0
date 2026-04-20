@@ -13,18 +13,19 @@ async function startServer() {
   // Mock API for the Prototype Dashboard
   app.get("/api/dashboard/kpis", (req, res) => {
     res.json({
-      totalActiveOrders: 12,
-      onTimeDeliveryRate: 94.2,
-      lowStockCount: 3,
-      machinesActive: 5
+      totalActiveOrders: 24,
+      onTimeDeliveryRate: 92.5,
+      lowStockCount: 7,
+      machinesActive: 8
     });
   });
 
   app.get("/api/orders", (req, res) => {
     res.json([
-      { id: 1, code: "PO-2026-001", product: "Industrial Mats A1", qty: 500, uom: "PCS", status: "In Progress", priority: "High", start: "2026-04-18" },
-      { id: 2, code: "PO-2026-002", product: "Conveyor Belt V-Shape", qty: 50, uom: "Rolls", status: "Planned", priority: "Urgent", start: "2026-04-20" },
-      { id: 3, code: "PO-2026-003", product: "Gasket Seal 40mm", qty: 2000, uom: "PCS", status: "Completed", priority: "Medium", start: "2026-04-10" }
+      { id: 1, code: "PO-2024-001", salesOrder: "SO-SAP-9901", product: "Care Labels (Flexo)", qty: 50000, department: "Flexo", status: "In Progress", prePress: "Completed", priority: "High", start: "2024-05-25" },
+      { id: 2, code: "PO-2024-002", salesOrder: "SO-SAP-9902", product: "Branded Hangtags", qty: 10000, department: "Levi's", status: "Planned", prePress: "Layout", priority: "Urgent", start: "2024-05-26" },
+      { id: 3, code: "PO-2024-003", salesOrder: "SO-SAP-9903", product: "RFID Security Tags", qty: 25000, department: "RFID", status: "Planned", prePress: "Pending", priority: "Medium", start: "2024-05-27" },
+      { id: 4, code: "PO-2024-004", salesOrder: "SO-SAP-4401", product: "Heat Transfer Stickers", qty: 5000, department: "Heat Transfer", status: "Planned", prePress: "Pending", priority: "Low", start: "2024-06-01" }
     ]);
   });
 

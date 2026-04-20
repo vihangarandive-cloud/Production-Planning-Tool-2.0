@@ -19,13 +19,28 @@
                     @Html.AntiForgeryToken()
                     
                     <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold">SAP Sales Order #</label>
+                            @Html.TextBoxFor(m => m.SalesOrderNo, new { @class = "form-control", placeholder = "e.g. SO-9901" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold">Customer Name</label>
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", placeholder = "As per SAP B1" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold">Internal Reference</label>
+                            @Html.TextBoxFor(m => m.OrderCode, new { @class = "form-control", placeholder = "Manual Ref" })
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Order Code</label>
-                            @Html.TextBoxFor(m => m.OrderCode, new { @class = "form-control", placeholder = "e.g. PO-2026-X" })
+                            <label class="form-label small fw-bold">Product / Label Name</label>
+                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control", placeholder = "Finish good item" })
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold">Product Name</label>
-                            @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control", placeholder = "As per catalog" })
+                            <label class="form-label small fw-bold">Production Department</label>
+                            @Html.DropDownListFor(m => m.Department, new SelectList(new[] { "Thermal", "Flexo", "PFL", "Heat Transfer", "RFID", "Offset", "Levi's" }), "-- Select Department --", new { @class = "form-select" })
                         </div>
                     </div>
                     

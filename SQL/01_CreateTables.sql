@@ -50,20 +50,29 @@ CREATE TABLE MachineResources (
     MachineId INT IDENTITY(1,1) PRIMARY KEY,
     MachineName NVARCHAR(100) NOT NULL,
     MachineCode NVARCHAR(20) NOT NULL UNIQUE,
-    Department NVARCHAR(50) NOT NULL,
+    Department NVARCHAR(50) NOT NULL, -- Thermal, Flexo, PFL, Heat Transfer, RFID, Offset, Levi's, Pre-Press
     Status NVARCHAR(20) DEFAULT 'Available', -- Available, Maintenance, Breakdown
     LastMaintenance DATETIME,
     NextMaintenance DATETIME,
     CapacityPerShift INT -- Units per shift
 );
 
--- 6. ProductionOrders table
+-- 6. ProductionOrders table (Enhanced for Printing & Pre-Press)
 CREATE TABLE ProductionOrders (
     OrderId INT IDENTITY(1,1) PRIMARY KEY,
-    OrderCode NVARCHAR(20) NOT NULL UNIQUE,
+    OrderCode NVARCHAR(20) NOT NULL UNIQUE, -- Internal Order ID
+    SalesOrderNo NVARCHAR(50), -- Reference from SAP B1
+    CustomerName NVARCHAR(200),
     ProductName NVARCHAR(100) NOT NULL,
+    Department NVARCHAR(50) NOT NULL, -- Thermal, Flexo, PFL, Heat Transfer, RFID, Offset, Levi's
     Quantity INT NOT NULL,
     UnitOfMeasure NVARCHAR(20) NOT NULL,
+    
+    -- Pre-Press Workflow
+    PrePressStatus NVARCHAR(50) DEFAULT 'Pending', -- Pending, Layout In Progress, Plate Making, Proof Reading, Completed
+    LayoutProofReadBy INT, -- UserId
+    PlatesReady BIT DEFAULT 0,
+    
     Status NVARCHAR(20) DEFAULT 'Planned', -- Planned, In Progress, On Hold, Completed, Cancelled
     Priority NVARCHAR(20) DEFAULT 'Medium', -- Low, Medium, High, Urgent
     PlannedStart DATETIME,
@@ -77,7 +86,8 @@ CREATE TABLE ProductionOrders (
     Notes NVARCHAR(MAX),
     CONSTRAINT FK_Orders_Machines FOREIGN KEY (MachineId) REFERENCES MachineResources(MachineId),
     CONSTRAINT FK_Orders_Employees FOREIGN KEY (AssignedEmployeeId) REFERENCES Employees(EmployeeId),
-    CONSTRAINT FK_Orders_Creator FOREIGN KEY (CreatedBy) REFERENCES Users(UserId)
+    CONSTRAINT FK_Orders_Creator FOREIGN KEY (CreatedBy) REFERENCES Users(UserId),
+    CONSTRAINT FK_Orders_ProofReader FOREIGN KEY (LayoutProofReadBy) REFERENCES Users(UserId)
 );
 
 -- 7. InventoryItems table

@@ -31,6 +31,7 @@ namespace RPACProductionPlanner.Services
 
             // 2. Persistence
             order.CreatedAt = DateTime.Now;
+            order.PrePressStatus = "Pending"; // Initialize pre-press workflow
             _orderRepo.Create(order);
             return (true, "Order created successfully.");
         }

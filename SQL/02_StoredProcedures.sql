@@ -44,19 +44,22 @@ BEGIN
 END;
 GO
 
--- 3. Production Orders
+-- 3. Production Orders (Enhanced for Printing & Pre-Press)
 CREATE PROCEDURE usp_GetAllProductionOrders
     @Status NVARCHAR(20) = NULL,
+    @Department NVARCHAR(50) = NULL,
     @StartDate DATETIME = NULL,
     @EndDate DATETIME = NULL
 AS
 BEGIN
-    SELECT po.*, m.MachineName, e.FullName AS EmployeeName, u.FullName AS CreatedByName
+    SELECT po.*, m.MachineName, e.FullName AS EmployeeName, u.FullName AS CreatedByName, pr.FullName AS ProofReaderName
     FROM ProductionOrders po
     LEFT JOIN MachineResources m ON po.MachineId = m.MachineId
     LEFT JOIN Employees e ON po.AssignedEmployeeId = e.EmployeeId
     LEFT JOIN Users u ON po.CreatedBy = u.UserId
+    LEFT JOIN Users pr ON po.LayoutProofReadBy = pr.UserId
     WHERE (@Status IS NULL OR po.Status = @Status)
+      AND (@Department IS NULL OR po.Department = @Department)
       AND (@StartDate IS NULL OR po.PlannedStart >= @StartDate)
       AND (@EndDate IS NULL OR po.PlannedStart <= @EndDate)
     ORDER BY po.CreatedAt DESC;
@@ -75,7 +78,10 @@ GO
 -- 5. Create Order
 CREATE PROCEDURE usp_CreateProductionOrder
     @OrderCode NVARCHAR(20),
+    @SalesOrderNo NVARCHAR(50),
+    @CustomerName NVARCHAR(200),
     @ProductName NVARCHAR(100),
+    @Department NVARCHAR(50),
     @Quantity INT,
     @UnitOfMeasure NVARCHAR(20),
     @Status NVARCHAR(20),
@@ -87,8 +93,8 @@ CREATE PROCEDURE usp_CreateProductionOrder
     @Notes NVARCHAR(MAX)
 AS
 BEGIN
-    INSERT INTO ProductionOrders (OrderCode, ProductName, Quantity, UnitOfMeasure, Status, Priority, PlannedStart, PlannedEnd, MachineId, CreatedBy, Notes)
-    VALUES (@OrderCode, @ProductName, @Quantity, @UnitOfMeasure, @Status, @Priority, @PlannedStart, @PlannedEnd, @MachineId, @CreatedBy, @Notes);
+    INSERT INTO ProductionOrders (OrderCode, SalesOrderNo, CustomerName, ProductName, Department, Quantity, UnitOfMeasure, Status, Priority, PlannedStart, PlannedEnd, MachineId, CreatedBy, Notes)
+    VALUES (@OrderCode, @SalesOrderNo, @CustomerName, @ProductName, @Department, @Quantity, @UnitOfMeasure, @Status, @Priority, @PlannedStart, @PlannedEnd, @MachineId, @CreatedBy, @Notes);
     SELECT SCOPE_IDENTITY();
 END;
 GO

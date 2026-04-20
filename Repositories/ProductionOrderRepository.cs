@@ -17,6 +17,7 @@ namespace RPACProductionPlanner.Repositories
             {
                 var p = new DynamicParameters();
                 p.Add("@Status", status);
+                p.Add("@Department", null); 
                 p.Add("@StartDate", start);
                 p.Add("@EndDate", end);
                 return conn.Query<ProductionOrder>("usp_GetAllProductionOrders", p, commandType: CommandType.StoredProcedure);
@@ -39,7 +40,10 @@ namespace RPACProductionPlanner.Repositories
             {
                 var p = new DynamicParameters();
                 p.Add("@OrderCode", order.OrderCode);
+                p.Add("@SalesOrderNo", order.SalesOrderNo);
+                p.Add("@CustomerName", order.CustomerName);
                 p.Add("@ProductName", order.ProductName);
+                p.Add("@Department", order.Department);
                 p.Add("@Quantity", order.Quantity);
                 p.Add("@UnitOfMeasure", order.UnitOfMeasure);
                 p.Add("@Status", order.Status);

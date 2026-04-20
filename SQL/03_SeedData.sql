@@ -22,39 +22,38 @@ INSERT INTO ShiftSchedules (ShiftName, StartTime, EndTime) VALUES
 ('Evening Shift', '14:00:00', '22:00:00'),
 ('Night Shift', '22:00:00', '06:00:00');
 
--- 4. Insert Machines
+-- 4. Insert Machines (Printing & Pre-Press)
 INSERT INTO MachineResources (MachineName, MachineCode, Department, Status, CapacityPerShift) VALUES 
-('Cutting Machine 01', 'CUT-001', 'Prep', 'Available', 5000),
-('Vulcanizer A', 'VULC-A', 'Production', 'Available', 200),
-('Mixing Mill 2', 'MIX-002', 'Raw Material', 'Maintenance', 1000),
-('Extruder Max', 'EXT-01', 'Production', 'Available', 1500),
-('Hydraulic Press X', 'HYD-X', 'Production', 'Available', 800),
-('Packaging Line 1', 'PKG-01', 'Finishing', 'Available', 10000);
+('Thermal Transfer T1', 'TH-01', 'Thermal', 'Available', 5000),
+('Flexo Press 8-Color', 'FL-01', 'Flexo', 'Available', 20000),
+('Offset Press KBA', 'OF-01', 'Offset', 'Available', 15000),
+('PFL Rotary Cutter', 'PF-01', 'PFL', 'Available', 10000),
+('RFID Inlay Inserter', 'RF-01', 'RFID', 'Available', 8000),
+('Levi''s Custom Press', 'LE-01', 'Levi''s', 'Available', 3000),
+('Graphic Layout Station A', 'PP-01', 'Pre-Press', 'Available', 100);
 
--- 5. Insert Employees
+-- 5. Insert Employees (Printing Departments)
 INSERT INTO Employees (FullName, EmployeeCode, Department, ShiftId) VALUES 
-('Nimal Sirisena', 'EMP-101', 'Prep', 1),
-('Sunil Shantha', 'EMP-102', 'Production', 1),
-('Ruwan Silva', 'EMP-103', 'Production', 2),
-('Amitha Perera', 'EMP-104', 'Raw Material', 1),
-('Kamal de Silva', 'EMP-105', 'Finishing', 2);
+('Amara Perera', 'EMP-101', 'Pre-Press', 1),
+('Suneth Silva', 'EMP-102', 'Flexo', 1),
+('Kasun Jayawardena', 'EMP-103', 'Thermal', 1),
+('Lakmal Perera', 'EMP-104', 'RFID', 1),
+('Nimal Sirisena', 'EMP-105', 'Offset', 1);
 
--- 6. Insert Inventory Items (Realistic for RPAC Lanka manufacturing)
+-- 6. Insert Inventory Items (SAP B1 Sync Items)
 INSERT INTO InventoryItems (ItemCode, ItemName, Category, QuantityOnHand, ReorderLevel, UnitOfMeasure) VALUES 
-('RM-RUB-01', 'Natural Rubber Gr-1', 'Raw Material', 5000, 1000, 'KG'),
-('RM-CHEM-02', 'Sulphur Powder', 'Chemicals', 200, 50, 'KG'),
-('RM-FAB-05', 'Nylon Canvas Fabric', 'Fabric', 1500, 300, 'SQM'),
-('RM-CHEM-10', 'Accelerator CZ', 'Chemicals', 15, 20, 'KG'), -- Low Stock
-('PK-BOX-01', 'Standard Carton Box', 'Packaging', 5000, 1000, 'PCS'),
-('RM-RUB-05', 'Synthetic Rubber BR', 'Raw Material', 3000, 500, 'KG'),
-('RM-CHEM-03', 'Zinc Oxide', 'Chemicals', 45, 50, 'KG'); -- Low Stock
+('INK-BLU-UV', 'Ink Blue UV Premium', 'Consumables', 500, 100, 'Liters'),
+('RIB-BLK-T', 'Thermal Ribbon Black', 'Consumables', 200, 50, 'Rolls'),
+('FAB-POLY-01', 'Polyester Fabric Roll', 'Raw Material', 1000, 200, 'Meters'),
+('RFID-CHP-N', 'RFID Chips Ntag213', 'Raw Material', 50000, 10000, 'Units'),
+('PRO-PLA-OF', 'Offset Printing Plates', 'Plates', 50, 10, 'Sets');
 
--- 7. Insert Production Orders
-INSERT INTO ProductionOrders (OrderCode, ProductName, Quantity, UnitOfMeasure, Status, Priority, PlannedStart, PlannedEnd, MachineId, AssignedEmployeeId, CreatedBy) VALUES 
-('PO-2026-001', 'Industrial Mats A1', 500, 'PCS', 'In Progress', 'High', '2026-04-18 08:00', '2026-04-21 17:00', 2, 2, 2),
-('PO-2026-002', 'Conveyor Belt V-Shape', 50, 'Rolls', 'Planned', 'Urgent', '2026-04-20 06:00', '2026-04-25 14:00', 4, 3, 2),
-('PO-2026-003', 'Gasket Seal 40mm', 2000, 'PCS', 'Completed', 'Medium', '2026-04-10 09:00', '2026-04-12 17:00', 5, 2, 2),
-('PO-2026-004', 'Rubber Lining Sheets', 300, 'KG', 'On Hold', 'Medium', '2026-04-15 08:00', '2026-04-18 17:00', 1, 1, 2);
+-- 7. Insert Production Orders (SAP B1 Integrated)
+INSERT INTO ProductionOrders (OrderCode, SalesOrderNo, CustomerName, ProductName, Department, Quantity, UnitOfMeasure, Status, PrePressStatus, Priority, PlannedStart, PlannedEnd, MachineId, AssignedEmployeeId, CreatedBy) VALUES 
+('PO-2024-001', 'SO-SAP-9901', 'Nike International', 'Care Labels (Flexo)', 'Flexo', 50000, 'Units', 'In Progress', 'Completed', 'High', '2024-05-25 08:00', '2024-05-28 17:00', 2, 2, 2),
+('PO-2024-002', 'SO-SAP-9902', 'Levi Strauss', 'Branded Hangtags', 'Levi''s', 10000, 'Units', 'Planned', 'Layout In Progress', 'Urgent', '2024-05-26 08:00', '2024-05-30 14:00', 6, 5, 2),
+('PO-2024-003', 'SO-SAP-9903', 'Marks & Spencer', 'RFID Security Tags', 'RFID', 25000, 'Units', 'Planned', 'Pending', 'Medium', '2024-05-27 09:00', '2024-05-31 17:00', 5, 4, 2),
+('PO-2024-004', 'SO-SAP-4401', 'Victoria Secret', 'Heat Transfer Stickers', 'Heat Transfer', 5000, 'Sheets', 'Planned', 'Pending', 'Low', '2024-06-01 08:00', '2024-06-03 17:00', 7, 1, 2);
 
 -- 8. Insert BOM Data
 INSERT INTO BillOfMaterials (ProductName, ItemId, QuantityRequired, UnitOfMeasure) VALUES 
