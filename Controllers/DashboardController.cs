@@ -18,7 +18,12 @@ namespace RPACProductionPlanner.Controllers
         public ActionResult Index()
         {
             ViewBag.ActiveModule = "Dashboard";
+            ViewBag.UserRole = SessionHelper.UserRole;
             var kpis = _orderRepo.GetDashboardKPIs();
+            
+            // Log for debugging or tracking login
+            System.Diagnostics.Debug.WriteLine($"Dashboard accessed by {SessionHelper.FullName} as {SessionHelper.UserRole}");
+            
             return View(kpis);
         }
     }

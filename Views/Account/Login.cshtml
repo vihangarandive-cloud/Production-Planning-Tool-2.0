@@ -66,8 +66,13 @@
 </head>
 <body>
     <div class="login-card">
-        <div class="text-center mb-5">
-            <img src="https://storage.googleapis.com/static.antigravity.dev/cortex/8987019/rpac-logo.png" alt="RPAC Logo" class="logo-img" />
+        <div class="text-center mb-5 transform transition-all duration-700 hover:scale-105">
+            <img src="https://storage.googleapis.com/static.antigravity.dev/cortex/8987019/rpac-logo.png" 
+                 alt="RPAC Logo" class="logo-img mx-auto" 
+                 onerror="this.style.display='none'; document.getElementById('login-logo-text').classList.remove('d-none');" />
+            <div id="login-logo-text" class="d-none mb-3">
+                <span class="text-5xl font-black italic tracking-tighter text-rpac-red">RPAC</span>
+            </div>
             <h4 class="fw-black text-dark mb-1 tracking-tight">PRODUCTION UNIT</h4>
             <p class="text-secondary small fw-bold uppercase tracking-widest">Enterprise Intelligence</p>
         </div>

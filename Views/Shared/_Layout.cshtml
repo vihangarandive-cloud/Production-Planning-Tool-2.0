@@ -25,10 +25,15 @@
 <body class="bg-light">
     <div class="d-flex" id="wrapper">
         <!-- Sidebar -->
-        <div class="bg-dark text-white shadow" id="sidebar-wrapper">
-            <div class="sidebar-heading border-bottom border-secondary py-4 px-3">
-                <span class="fs-4 fw-bold text-uppercase tracking-wider">RPAC Lanka</span>
-                <div class="small text-secondary mt-1">Production Planner v1.0</div>
+        <div class="bg-dark text-white shadow-lg transition-all duration-300" id="sidebar-wrapper" style="background: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);">
+            <div class="sidebar-heading border-bottom border-white/10 py-5 px-4 text-center">
+                <div class="d-flex flex-column align-items-center gap-2">
+                    <img src="https://storage.googleapis.com/static.antigravity.dev/cortex/8987019/rpac-logo.png" 
+                         alt="RPAC" class="img-fluid mb-1" style="height: 50px; filter: brightness(0) invert(1);"
+                         onerror="this.style.display='none'; document.getElementById('sidebar-logo-text').classList.remove('d-none');" />
+                    <span id="sidebar-logo-text" class="fs-3 fw-black text-uppercase tracking-tighter text-white d-none italic">RPAC</span>
+                    <div class="x-small text-white-50 fw-bold uppercase tracking-widest" style="font-size: 0.6rem;">Enterprise Intelligence</div>
+                </div>
             </div>
             <div class="list-group list-group-flush mt-3 px-2">
                 <a href="@Url.Action("Index", "Dashboard")" class="list-group-item list-group-item-action bg-dark text-white border-0 rounded mb-1 @(ViewBag.ActiveModule == "Dashboard" ? "active-link" : "")">
